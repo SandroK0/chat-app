@@ -3,35 +3,45 @@
   rel="stylesheet"
   href="{{url_for('static', filename='css/ChatRoom.css')}}"
 />
-<div class="body-div">
-  <div class="chat-cont">
-    <div class="head">
-      <h1>Chat Room</h1>
-      <div class="user-info">
-        <!-- <p>{{session['user']}}</p> -->
-        <img />
-      </div>
-    </div>
-    <div class="message-container" id="message-container">
-      {% for message in messages%} {% if message[1] == session['user']%}
-      <p><span style="color: red">{{message[1]}}</span>:{{message[2]}}</p>
-      {% else %}
-      <p>{{message[1]}}:{{message[2]}}</p>
-      {% endif %} {% endfor %}
-    </div>
-    <form method="POST" class="send-form" id="message-form">
-      <input
-        type="text"
-        placeholder="Message"
-        id="message-input"
-        name="message"
-      />
-      <button type="submit">Send</button>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+/>
+
+<div class="container">
+  <div class="chat-header">
+    <h1 class="logo">Chat Room</h1>
+    <form method="POST">
+      <button type="submit" class="btn btn-leave"><i class="fa fa-sign-out-alt"></i></button>
     </form>
   </div>
+  <div class="chat-body">
+    <div class="message-container" id="message-container">
+      {% for message in messages%} {% if message[1] == session['user']%}
+      <p class="message">
+        <span style="color: #016fa5">{{message[1]}}</span>: {{message[2]}}
+      </p>
+      {% else %}
+      <p class="message">{{message[1]}}: {{message[2]}}</p>
+      {% endif %} {% endfor %}
+    </div>
+  </div>
+  <form class="input-container" id="message-form">
+    <input
+      type="text"
+      placeholder="Type a message..."
+      id="message-input"
+      name="message"
+      required
+    />
+    <button class="btn btn-send" type="submit">
+      <i class="fa fa-paper-plane"></i>
+    </button>
+  </form>
 </div>
 <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
 <script>
+  var currentUser = '{{ session["user"] }}';
   const scrollableDiv = document.getElementById("message-container");
 
   function ScrollDown() {
@@ -56,8 +66,17 @@
 
   socket.on("message", function (data) {
     var messageContainer = document.getElementById("message-container");
-    messageContainer.innerHTML +=
-      "<p>" + data.author + ": " + data.message + "</p>";
+    if (currentUser === data.author) {
+      messageContainer.innerHTML +=
+        "<p class='message' >" +
+        `<span style="color: #016fa5" >${data.author}</span>` +
+        ": " +
+        data.message +
+        "</p>";
+    } else {
+      messageContainer.innerHTML +=
+        "<p class='message' >" + data.author + ": " + data.message + "</p>";
+    }
   });
 
   document

@@ -108,11 +108,15 @@ def register():
 
 
 @app.route('/ChatRoom', methods=['GET', 'POST'])
-def ChatRoom():
-    print('redirected')
+def ChatRoom():    
     if 'user' in session:
         user = session['user']
         MESSAGES = db.get_messages()
+        
+        if request.method == 'POST':
+            session.pop('user')
+            return redirect('/')
+        
     else:
         return redirect('/')
     return render_template('ChatRoom.html', messages=MESSAGES, session=session)
@@ -124,7 +128,6 @@ def handle_new_message(data):
     author = session['user']
     message = data['message']
     db.new_message(author, message)
-    MESSAGES = db.get_messages()
     send({'author': author, 'message': message}, broadcast=True)
 
 

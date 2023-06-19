@@ -3,14 +3,29 @@
   rel="stylesheet"
   href="{{url_for('static', filename='css/register.css')}}"
 />
-<h1>Registration</h1>
-<form class="reg-form" method="POST">
-    <label>Nickname</label>
-    <input type="text" placeholder="enter nickname" name="nickname-input">
-    <label>Password</label>
-    <input type="password" placeholder="password" name="password-input">
-    <label>Repeat Password</label>
-    <input type="password" placeholder="repeat password" name ='repeatpassword-input'>
-    <button type="submit">Register</button>
-</form>
+<div class="container">
+  <h1 class="logo">Chat Room</h1>
+  <p class="slogan">Create Your Account</p>
+  <form class="auth-form" method="POST">
+    <input type="text" placeholder="Nickname" name="nickname-input" required />
+    <input
+      type="password"
+      placeholder="Password"
+      name="password-input"
+      required
+    />
+    <input
+      type="password"
+      placeholder="Repeat Password"
+      name="repeatpassword-input"
+      required
+    />
+    <div class="buttons">
+      <button class="btn btn-register" type="submit">Register</button>
+    </div>
+  </form>
+  <p class="info">
+    Already have an account? <a href="{{ url_for('index')}}">Login here</a>.
+  </p>
+</div>
 {% endblock%}

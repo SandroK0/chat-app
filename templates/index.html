@@ -1,14 +1,22 @@
 {% extends 'base.html'%} {% block body%}
 <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
-<div class="body-div">
-  <h1 class="headline">Chat Room</h1>
-  <form method="POST" action="/" class="auth-form">
-    <input type="text" name="nickname_input" placeholder="enter nickname" />
-    <input type="password" name="password_input" placeholder="enter password" />
-    <div>
-      <button type="submit">Join</button>
-      <button type="submit" value="true" name="register">Register</button>
+<div class="container">
+  <h1 class="logo">Chat Room</h1>
+  <p class="slogan">Connect, Chat, and Have Fun!</p>
+  <form method="POST" class="auth-form">
+    <input type="text" placeholder="Nickname" name="nickname_input" required />
+    <input
+      type="password"
+      placeholder="Password"
+      name="password_input"
+      required
+    />
+    <div class="buttons">
+      <button class="btn btn-login" type="submit">Login</button>
     </div>
   </form>
+  <p class="info">
+    Don't have an account? <a href="{{ url_for('register')}}">Sign up here</a>.
+  </p>
 </div>
 {% endblock%}
