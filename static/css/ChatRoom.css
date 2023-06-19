@@ -3,13 +3,28 @@
   box-sizing: border-box;
 }
 
-body {
+.body-div {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  justify-self: flex-end;
+  height: 100%;
   padding: 0;
+}
+
+.user-info{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.head{
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  width: 100%;
 }
 
 

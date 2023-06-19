@@ -76,11 +76,11 @@ def index():
         nickname = request.form.get('nickname_input')
         password = request.form.get('password_input')
 
+        if 'register' in request.form:
+            return redirect('/register')
+
         if nickname and password:
             user = User(nickname, password)
-
-            if 'register' in request.form:
-                db.add_user(user)
 
         if (db.check_user(user)):
             session['user'] = user.nickname
@@ -89,8 +89,25 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+
+    if request.method == 'POST':
+        nickname = request.form.get('nickname-input')
+        password = request.form.get('password-input')
+        repeatPassword = request.form.get('repeatpassword-input')
+
+        if password != repeatPassword:
+            return redirect('/register')
+
+        user = User(nickname, password)
+        db.add_user(user)
+        return redirect('/')
+
+    return render_template('register.html')
+
+
 @app.route('/ChatRoom', methods=['GET', 'POST'])
-@socketio.on('new_message')
 def ChatRoom():
     print('redirected')
     if 'user' in session:
@@ -98,7 +115,7 @@ def ChatRoom():
         MESSAGES = db.get_messages()
     else:
         return redirect('/')
-    return render_template('ChatRoom.html', messages=MESSAGES)
+    return render_template('ChatRoom.html', messages=MESSAGES, session=session)
 
 
 @socketio.on('new_message')

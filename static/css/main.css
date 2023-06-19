@@ -1,27 +1,24 @@
-
-*{
+* {
   box-sizing: border-box;
 }
 
-body {
+body{
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  padding: 0;
 }
 
-.headline{
-  font-size: 100px
+
+.headline {
+  font-size: 100px;
 }
 
-.auth-form{
+.auth-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 20px;
 }
-
-

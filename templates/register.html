@@ -1,0 +1,16 @@
+{% extends 'base.html'%} {% block body%}
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='css/register.css')}}"
+/>
+<h1>Registration</h1>
+<form class="reg-form" method="POST">
+    <label>Nickname</label>
+    <input type="text" placeholder="enter nickname" name="nickname-input">
+    <label>Password</label>
+    <input type="password" placeholder="password" name="password-input">
+    <label>Repeat Password</label>
+    <input type="password" placeholder="repeat password" name ='repeatpassword-input'>
+    <button type="submit">Register</button>
+</form>
+{% endblock%}

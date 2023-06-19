@@ -1,12 +1,14 @@
 {% extends 'base.html'%} {% block body%}
 <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
-<h1 class="headline">Chat Room</h1>
-<form method="POST" action="/" class="auth-form">
-  <input type="text" name="nickname_input" placeholder="enter nickname" />
-  <input type="password" name="password_input" placeholder="enter password" />
-  <div>
-    <button type="submit">Join</button>
-    <button type="submit" value="true" name="register">Register</button>
-  </div>
-</form>
+<div class="body-div">
+  <h1 class="headline">Chat Room</h1>
+  <form method="POST" action="/" class="auth-form">
+    <input type="text" name="nickname_input" placeholder="enter nickname" />
+    <input type="password" name="password_input" placeholder="enter password" />
+    <div>
+      <button type="submit">Join</button>
+      <button type="submit" value="true" name="register">Register</button>
+    </div>
+  </form>
+</div>
 {% endblock%}
