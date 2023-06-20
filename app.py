@@ -3,8 +3,10 @@ from flask_socketio import SocketIO, send
 import sqlite3
 
 app = Flask(__name__)
-app.secret_key = 'secret!123'
-socketio = SocketIO(app)
+async_mode = 'eventlet'  # or 'gevent'
+app.config['SECRET_KEY'] = 'secret!123'
+app.config['DEBUG'] = True
+socketio = SocketIO(app, async_mode=async_mode)
 
 
 class Database():
@@ -51,6 +53,7 @@ class Database():
         search = c.execute(
             "SELECT * FROM Users WHERE nickname = ?", (user.nickname,)).fetchall()
 
+        conn.close()
         if search:
             if user.password == search[0][1]:
                 return True
@@ -133,4 +136,4 @@ def handle_new_message(data):
 
 if __name__ == "__main__":
 
-    socketio.run(app, debug=True, allow_unsafe_werkzeug=True)
+    socketio.run(app)
