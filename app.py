@@ -1,9 +1,9 @@
-from flask import Flask, redirect, request, render_template, session, flash
+from flask import Flask, redirect, request, render_template, session, flash, url_for
 from flask_socketio import SocketIO, send
 import sqlite3
 
 app = Flask(__name__)
-async_mode = 'eventlet'  # or 'gevent'
+async_mode = 'eventlet'
 app.config['SECRET_KEY'] = 'secret!123'
 app.config['DEBUG'] = True
 socketio = SocketIO(app, async_mode=async_mode)
@@ -97,14 +97,14 @@ def index():
         password = request.form.get('password_input')
 
         if 'register' in request.form:
-            return redirect('/register')
+            return redirect(url_for('register'))
 
         if nickname and password:
             user = User(nickname, password)
 
         if (db.check_user(user)):
             session['user'] = user.nickname
-            return redirect('/ChatRoom')
+            return redirect(url_for('ChatRoom'))
         else:
             error = 'Wrong Credentials!'
 
@@ -126,7 +126,7 @@ def register():
             if nick_available:
                 user = User(nickname, password)
                 db.add_user(user)
-                return redirect('/')
+                return redirect(url_for('index'))
             else:
                 error = "Nickname is already taken! Try another."
 
@@ -141,10 +141,10 @@ def ChatRoom():
 
         if request.method == 'POST':
             session.pop('user')
-            return redirect('/')
+            return redirect(url_for('index'))
 
     else:
-        return redirect('/')
+        return redirect(url_for('index'))
     return render_template('ChatRoom.html', messages=MESSAGES, session=session)
 
 
