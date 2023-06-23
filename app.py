@@ -1,4 +1,4 @@
-from flask import Flask, redirect, request, render_template, session
+from flask import Flask, redirect, request, render_template, session, flash
 from flask_socketio import SocketIO, send
 import sqlite3
 
@@ -60,6 +60,22 @@ class Database():
         else:
             return False
 
+    def nickname_available(self, nickname):
+
+        conn = sqlite3.connect(self.db)
+        c = conn.cursor()
+
+        search = c.execute(
+            "SELECT * FROM Users WHERE nickname = ?", (nickname,)).fetchall()
+
+        conn.close()
+        if search:
+            print('found')
+            return False
+        else:
+            print('empty')
+            return True
+
 
 db = Database('Database.sqlite')
 
@@ -74,6 +90,7 @@ class User():
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    error = None
     if request.method == 'POST':
 
         nickname = request.form.get('nickname_input')
@@ -88,38 +105,44 @@ def index():
         if (db.check_user(user)):
             session['user'] = user.nickname
             return redirect('/ChatRoom')
+        else:
+            error = 'Wrong Credentials!'
 
-    return render_template('index.html')
+    return render_template('index.html', error=error)
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-
+    error = None
     if request.method == 'POST':
         nickname = request.form.get('nickname-input')
         password = request.form.get('password-input')
         repeatPassword = request.form.get('repeatpassword-input')
 
         if password != repeatPassword:
-            return redirect('/register')
+            error = "Passwords does not match!"
+        else:
+            nick_available = db.nickname_available(nickname)
+            if nick_available:
+                user = User(nickname, password)
+                db.add_user(user)
+                return redirect('/')
+            else:
+                error = "Nickname is already taken! Try another."
 
-        user = User(nickname, password)
-        db.add_user(user)
-        return redirect('/')
-
-    return render_template('register.html')
+    return render_template('register.html', error=error)
 
 
 @app.route('/ChatRoom', methods=['GET', 'POST'])
-def ChatRoom():    
+def ChatRoom():
     if 'user' in session:
         user = session['user']
         MESSAGES = db.get_messages()
-        
+
         if request.method == 'POST':
             session.pop('user')
             return redirect('/')
-        
+
     else:
         return redirect('/')
     return render_template('ChatRoom.html', messages=MESSAGES, session=session)
@@ -135,5 +158,4 @@ def handle_new_message(data):
 
 
 if __name__ == "__main__":
-
     socketio.run(app)

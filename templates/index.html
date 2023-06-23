@@ -11,6 +11,9 @@
       name="password_input"
       required
     />
+    {% if error %}
+    <p style="color: red;">{{error}}</p>
+    {% endif %}
     <div class="buttons">
       <button class="btn btn-login" type="submit">Login</button>
     </div>
