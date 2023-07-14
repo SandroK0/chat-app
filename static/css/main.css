@@ -2,27 +2,6 @@
   box-sizing: border-box;
 }
 
-/* body{
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-
-.headline {
-  font-size: 100px;
-}
-
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-} */
-
 body {
   margin: 0;
   padding: 0;
@@ -103,4 +82,3 @@ body {
 .info a:hover {
   text-decoration: underline;
 }
-

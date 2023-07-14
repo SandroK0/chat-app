@@ -1,75 +1,3 @@
-/* 
-*{
-  box-sizing: border-box;
-}
-
-.body-div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  justify-self: flex-end;
-  height: 100%;
-  padding: 0;
-}
-
-.user-info{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-.head{
-  display: flex;
-  align-items: center;
-  justify-content:center;
-  width: 100%;
-}
-
-
-
-.chat-cont {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 1200px;
-  height: 600px;
-  border: 1px solid black;
-}
-
-.chat-cont h1{
-  height: 40px;
-  margin: 20px;
-}
-
-.message-container{
-  display: flex;
-  flex-direction: column;
-  padding: 5px;
-  width: 1200px;
-  height: 500px;
-  max-height: 500px;
-  overflow-y:scroll;
-  scroll-behavior: auto;
-  border: 1px solid black;
-
-}
-
-.send-form{
-  width: 1200px;
-  height: 40px;
-  display: flex;
-  justify-content: space-between;
-  padding: 5px;
-  gap: 5px;
-  align-items: center;
-}
-
-.send-form input{
-  width: 100%;
-} */
-
 body {
   margin: 0;
   padding: 0;
@@ -109,7 +37,6 @@ body {
 
 .chat-header .btn-leave i {
   font-size: 18px;
-
 }
 
 .chat-body {
@@ -122,6 +49,7 @@ body {
 }
 
 .message-container {
+  height: 500px;
   max-height: 500px;
   overflow-y: auto;
   padding-bottom: 10px;
